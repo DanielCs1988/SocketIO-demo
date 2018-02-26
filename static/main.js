@@ -10,8 +10,22 @@ $(document).ready(function () {
     });
 
     $('#send-btn').click(function () {
-        let message = $('#chat-message').val();
-        socket.emit('chat', message);
+        let message = $('#chat-message');
+        socket.emit('chat', message.val(), function (server_reply) {
+            console.log(server_reply);
+        });
+        message.val('');
     });
+
+    socket.on('text-edited', function (newText) {
+        $('#editable-text').val(newText);
+    });
+
+    $('#editable-text').on('keydown', function () {
+        setTimeout(function () {
+            socket.emit('text-edited', $('#editable-text').val());
+        }, 10);
+    });
+
 
 });

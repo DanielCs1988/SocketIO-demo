@@ -2,8 +2,10 @@
 {% block content %}
 
 <h2 class="text-center">Enter a nickname to begin chatting!</h2>
+
 <div class="row">
     <div class="col offset-md-3 offset-lg-4 col-md-6 col-lg-4">
+
         <form action="{{ url_for('login_user') }}" method="get" class="p-3">
             <div class="form-group">
                 <input type="text" class="form-control" id="nickname" name="nickname" minlength="5"
@@ -11,6 +13,7 @@
                 <button type="submit" class="btn btn-success btn-block mt-2">Start chatting!</button>
             </div>
         </form>
+
     </div>
 </div>
 

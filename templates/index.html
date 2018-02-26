@@ -5,20 +5,31 @@
 
     <div class="offset-lg-1 col-lg-5 col mr-2">
         <div class="card h-100">
-            <div class="card-header text-centered">
-                <h5 class="text-center">Chat Window</h5>
+
+            <div class="card-header">
+                <h5 class="d-inline">Chat Window</h5>
+                <a type="button" class="btn btn-primary btn-sm float-right" href="{{ url_for('login_page') }}">
+                    Change Name
+                </a>
             </div>
-            <div id="chat-space" class="card-body"></div>
+
+            <div id="chat-space" class="card-body">
+                {% for msg in chat_history %}
+                    <div class="chat-msg"><b>{{ msg.nick }}:</b> {{ msg.message }}</div>
+                {% endfor %}
+            </div>
+
             <div class="card-footer">
                 <input type="text" id="chat-message" name="chat-message" class="form-control mb-2"
                        placeholder="What did you have in mind, {{ session.get('user') }}?">
                 <button id="send-btn" class="btn btn-success btn-block">Send message</button>
             </div>
+
         </div>
     </div>
 
     <div class="col-lg-5 col ml-2">
-        <p id="editable-text" class="p-3">{{ paragraph_text }}</p>
+        <textarea id="editable-text" class="p-3">{{ paragraph_text }}</textarea>
     </div>
 
 </div>
