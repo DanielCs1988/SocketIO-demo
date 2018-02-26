@@ -23,14 +23,15 @@ def login_page():
     return render_template('login.html')
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login')
 def login_user():
     # Please note that SocketIO alters the way session behaves, so we should assert it's state
     # (handle the login attempt) before opening up the socket connection.
-    nickname = request.form['nickname']
+    nickname = request.args['nickname']
     if len(nickname) >= 5:
         session['user'] = nickname
-        return render_template('index.html')
+        paragraph_text = get_bacon_ipsum()
+        return render_template('index.html', paragraph_text=paragraph_text)
 
     return redirect(url_for('login_page'))
 
@@ -46,20 +47,28 @@ def init_socket_connection():
 
 @socket.on('chat')
 def handle_incoming_chat_message(chat_msg):
+    # Appending the name of the current user to the message, while converting it to a dictionary.
+    full_msg = {'nick': session.get('user'), 'message': chat_msg}
     # First we save the message to the database.
-    chat_history.append(chat_msg)
-    # Then we broadcast the message to all the connected clients, except for the sender.
-    emit('chat', chat_msg, broadcast=True, include_self=False)
+    chat_history.append(full_msg)
+    # Then we broadcast the message to all the connected clients, including sender.
+    # Dictionary is automatically converted to JSON.
+    emit('chat', full_msg, broadcast=True)
     # It's nice to give a feedback to the sender about the successful data transfer.
     # This message is overly verbose for demonstration purposes. See the script side for more info.
     return 'Message received and saved.'
 
 
 @socket.on('text-edited')
-def update_cards(text):
+def update_paragraph(text):
     # We are broadcasting the current state of the paragraph after each and every keystroke.
     # Providing a return value - aka feedback to the sender - is not necessary as you can see.
     emit('text-edited', text, broadcast=True, include_self=False)
+
+
+def get_bacon_ipsum():
+    with open('bacon.txt') as file:
+        return file.read()
 
 
 if __name__ == '__main__':

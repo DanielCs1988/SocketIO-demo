@@ -1,6 +1,30 @@
 {% extends 'layout.html' %}
 {% block content %}
 
+<div class="row">
 
+    <div class="offset-lg-1 col-lg-5 col mr-2">
+        <div class="card h-100">
+            <div class="card-header text-centered">
+                <h5 class="text-center">Chat Window</h5>
+            </div>
+            <div id="chat-space" class="card-body"></div>
+            <div class="card-footer">
+                <input type="text" id="chat-message" name="chat-message" class="form-control mb-2"
+                       placeholder="What did you have in mind, {{ session.get('user') }}?">
+                <button id="send-btn" class="btn btn-success btn-block">Send message</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5 col ml-2">
+        <p id="editable-text" class="p-3">{{ paragraph_text }}</p>
+    </div>
+
+</div>
+
+<!-- Loading the script that initialises the socket connection.
+     It's not in the <head> section because we only open the socket connection after login. -->
+<script src="{{ url_for('static', filename='main.js') }}" defer></script>
 
 {% endblock %}
