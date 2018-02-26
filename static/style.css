@@ -23,7 +23,7 @@ body {
 .chat-msg {
     border-radius: 5px;
     box-shadow: grey 1px 1px 3px;
-    padding: 1px;
+    padding: 3px;
     border: lightgrey solid 1px;
     margin-bottom: 5px;
 }

@@ -21,10 +21,8 @@ $(document).ready(function () {
         $('#editable-text').val(newText);
     });
 
-    $('#editable-text').on('keydown', function () {
-        setTimeout(function () {
-            socket.emit('text-edited', $('#editable-text').val());
-        }, 10);
+    $('#editable-text').on('input', function () {
+        socket.emit('text-edited', $(this).val());
     });
 
 
