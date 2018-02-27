@@ -18,11 +18,11 @@ $(document).ready(function () {
     });
 
     socket.on('text-edited', function (newText) {
-        $('#editable-text').val(newText);
+        $('#editable-text').text(newText);
     });
 
     $('#editable-text').on('input', function () {
-        socket.emit('text-edited', $(this).val());
+        socket.emit('text-edited', $(this).text());
     });
 
 
