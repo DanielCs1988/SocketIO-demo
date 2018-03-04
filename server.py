@@ -51,7 +51,7 @@ def handle_incoming_chat_message(chat_msg):
     # Appending the name of the current user to the message, while converting it to a dictionary.
     full_msg = {'nick': session.get('user'), 'message': chat_msg}
 
-    # First we save the message to the database.
+    # First we save the message to the 'database'.
     chat_history.append(full_msg)
 
     # Then we broadcast the message to all the connected clients, including sender.
@@ -75,12 +75,10 @@ def update_paragraph(text):
 
 
 def get_bacon_ipsum():
-    if text_history:
-        return text_history
     with open('bacon.txt') as file:
         return file.read()
 
 
 if __name__ == '__main__':
-    # Please note that we have to run the socket, not the app.
+    # Please note that we have to call run on the socket, not the app.
     socket.run(app)
